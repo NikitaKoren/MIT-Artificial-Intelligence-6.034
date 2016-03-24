@@ -169,10 +169,11 @@ simpsons_data = ("male bart",
                  "parent homer lisa",
                  "parent homer maggie",
                  "parent abe homer")
+
 TEST_RESULTS_6 = forward_chain(family_rules,
                                simpsons_data,verbose=False)
 # You can test your results by uncommenting this line:
-# print forward_chain(family_rules, simpsons_data, verbose=True)
+print forward_chain(family_rules, simpsons_data, verbose=True)
 
 black_data = ("male sirius",
               "male regulus",
@@ -248,10 +249,4 @@ TEST_RESULTS_6 = forward_chain(family_rules,
 
 from backchain import backchain_to_goal_tree
 
-##; Section 3: Survey ##
-# Please answer these questions inside the double quotes.
-
-HOW_MANY_HOURS_THIS_PSET_TOOK = ''
-WHAT_I_FOUND_INTERESTING = ''
-WHAT_I_FOUND_BORING = ''
 
