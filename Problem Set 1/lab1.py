@@ -249,6 +249,6 @@ TEST_RESULTS_6 = forward_chain(family_rules,
 
 from backchain import backchain_to_goal_tree
 HOW_MANY_HOURS_THIS_PSET_TOOK = '8'
-WHAT_I_FOUND_INTERESTING = '.'
-WHAT_I_FOUND_BORING = '.'
+WHAT_I_FOUND_INTERESTING = '?'
+WHAT_I_FOUND_BORING = '? '
 
