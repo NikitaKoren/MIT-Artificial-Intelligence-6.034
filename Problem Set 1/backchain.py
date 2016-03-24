@@ -33,6 +33,7 @@ from zookeeper import ZOOKEEPER_RULES
 #                         'opus does not fly'  OR 'opus swims' OR 'opus has black and white color' AND
 # 'opus is a bird'  OR 'opus has feathers'  OR 'opus flies' AND 'opus lays eggs'
 
+
 def backchain_to_goal_tree(rules, hypothesis):
     goal_tree = [hypothesis]
     for rule in rules:
@@ -43,16 +44,21 @@ def backchain_to_goal_tree(rules, hypothesis):
             if bindings or option == hypothesis:
                 # take IF part of a rule
                 antecedent = rule.antecedent()
-                if not isinstance(antecedent, str):
-                    new_results = []
-                    new_hypothesis = [populate(antecedent_opt, bindings) for antecedent_opt in antecedent]
-                    for hypothesis_opt in new_hypothesis:
-                        new_results.append(backchain_to_goal_tree(rules, hypothesis_opt))
+                if isinstance(antecedent, str):
+                    new_hypothesis = populate(antecedent, bindings)
+                    goal_tree.append(backchain_to_goal_tree(rules, new_hypothesis))
+                    goal_tree.append(new_hypothesis)
+                else:
+                    statements = [populate(ante_expr, bindings) for ante_expr in antecedent]
+                    new_goal_tree = []
+                    for statement in statements:
+                        new_goal_tree.append(backchain_to_goal_tree(rules, statement))
+
                     # check the leaves of AND-OR tree and recursively backward chain on them.
                     if isinstance(antecedent, AND):
-                        goal_tree.append(AND(new_results))
+                        goal_tree.append(AND(new_goal_tree))
                     else:
-                        goal_tree.append(OR(new_results))
+                        goal_tree.append(OR(new_goal_tree))
     return simplify(OR(goal_tree))
 
 
@@ -61,3 +67,4 @@ def backchain_to_goal_tree(rules, hypothesis):
 # it to see it work:
 # print backchain_to_goal_tree(ZOOKEEPER_RULES, 'opus is a penguin')
 # print backchain_to_goal_tree(ZOOKEEPER_RULES, 'opus is a giraffe')
+# print backchain_to_goal_tree(ARBITRARY_EXP, 'zot')
